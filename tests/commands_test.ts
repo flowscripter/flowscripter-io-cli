@@ -1,7 +1,7 @@
-import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from "bun:test";
+import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import copy from "../src/commands/copy.ts";
 import deleteCommand from "../src/commands/delete.ts";
 import getProperties from "../src/commands/get-properties.ts";
@@ -12,6 +12,27 @@ import setProperties from "../src/commands/set-properties.ts";
 import { createStubContext } from "./testContext.ts";
 
 let root: string;
+let pluginsPath: string;
+
+beforeAll(async () => {
+  // Simulate `flowscripter-io-cli plugin add @flowscripter/io-plugin-filesystem`
+  // by symlinking the sibling repo's checkout into a temp plugin store,
+  // discovered purely via NpmPluginRepository - no npm install/publish
+  // involved, and no dependency on it in this package's package.json.
+  pluginsPath = await mkdtemp(join(tmpdir(), "flowscripter-io-cli-plugins-test-"));
+  await mkdir(join(pluginsPath, "@flowscripter"), { recursive: true });
+  await symlink(
+    resolve(import.meta.dir, "..", "..", "io-plugin-filesystem"),
+    join(pluginsPath, "@flowscripter", "io-plugin-filesystem"),
+    "junction",
+  );
+  process.env.FLOWSCRIPTER_IO_CLI_PLUGINS_PATH = pluginsPath;
+});
+
+afterAll(async () => {
+  delete process.env.FLOWSCRIPTER_IO_CLI_PLUGINS_PATH;
+  await rm(pluginsPath, { recursive: true, force: true });
+});
 
 beforeEach(async () => {
   root = await mkdtemp(join(tmpdir(), "flowscripter-io-cli-test-"));
