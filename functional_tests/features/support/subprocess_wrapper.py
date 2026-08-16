@@ -1,3 +1,4 @@
+import os
 import shlex
 import subprocess
 
@@ -11,7 +12,11 @@ class SubprocessWrapper:
         self.returncode = None
 
     def run(self, args='', timeout=30):
-        cmd = [self.executable] + (shlex.split(args) if args else [])
+        # shlex's default posix=True mode treats "\" as an escape character,
+        # which mangles Windows paths (e.g. "C:\Users\...\Temp\...") by
+        # stripping their separators. posix=False preserves them.
+        tokens = shlex.split(args, posix=(os.name != 'nt')) if args else []
+        cmd = [self.executable] + tokens
         result = subprocess.run(
             cmd, capture_output=True, text=True, timeout=timeout, encoding='utf-8',
             errors='replace',
