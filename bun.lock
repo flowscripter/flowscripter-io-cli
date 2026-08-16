@@ -30,7 +30,7 @@
 
     "@flowscripter/dynamic-plugin-framework": ["@flowscripter/dynamic-plugin-framework@2.2.3", "", { "dependencies": { "semver": "^7.8.5" }, "peerDependencies": { "typescript": "^7.0.2" } }, "sha512-vLoGC2LktUVPWqA66CwSzZtjh09zSR2HTuLa8OMGDumePkgZD0UTE9D2jWsd3bFdqcy14eQf3IYRdDM47+wRKg=="],
 
-    "@flowscripter/io-plugin-filesystem": ["@flowscripter/io-plugin-filesystem@1.0.0", "", { "dependencies": { "@flowscripter/pluggable-io-framework-api": "^1.0.1", "zod": "^4.4.3" }, "peerDependencies": { "@flowscripter/dynamic-plugin-framework": "*", "typescript": "^6.0.3" } }, "sha512-xKHpAUVbpNaUCSHGsZ/hXlc5+gTY3s8yqqhibM7HdxDuiUBnu+gOEwFfXe4NfYx3Czmu6kpqya5O77YgWSB7GQ=="],
+    "@flowscripter/io-plugin-filesystem": ["@flowscripter/io-plugin-filesystem@1.0.2", "", { "dependencies": { "@flowscripter/pluggable-io-framework-api": "^1.0.1", "zod": "^4.4.3" }, "peerDependencies": { "@flowscripter/dynamic-plugin-framework": "*", "typescript": "^6.0.3" } }, "sha512-xM0ON9vap/GXCjyaf+uYemi+Ly0nwnZv0mocUtwwk0PFZAYPc5o0aHFQT4PWhoB6DhW3wykb4ey8vGoTo3hz2w=="],
 
     "@flowscripter/pluggable-io-framework": ["@flowscripter/pluggable-io-framework@1.0.1", "", { "dependencies": { "@flowscripter/dynamic-plugin-framework": "^2.2.0", "@flowscripter/pluggable-io-framework-api": "^1.0.1" }, "peerDependencies": { "typescript": "^6.0.3" } }, "sha512-OT7ShiH+9b5KPy+B+7JcBvkFdOUJQwbSwokjLLPYphZE29iBydWJbcuwXNmiC6+BVhx5y5xfUEDDpjn3ql1MyQ=="],
 
