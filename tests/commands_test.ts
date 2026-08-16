@@ -15,14 +15,14 @@ let root: string;
 let pluginsPath: string;
 
 beforeAll(async () => {
-  // Simulate `flowscripter-io-cli plugin add @flowscripter/io-plugin-filesystem`
-  // by symlinking the sibling repo's checkout into a temp plugin store,
-  // discovered purely via NpmPluginRepository - no npm install/publish
-  // involved, and no dependency on it in this package's package.json.
+  // Simulate `flowscripter-io-cli plugin:add @flowscripter/io-plugin-filesystem`
+  // by symlinking the real published package (a devDependency here purely
+  // for test setup - never a runtime dependency of this CLI) into a temp
+  // plugin store, discovered purely via NpmPluginRepository.
   pluginsPath = await mkdtemp(join(tmpdir(), "flowscripter-io-cli-plugins-test-"));
   await mkdir(join(pluginsPath, "@flowscripter"), { recursive: true });
   await symlink(
-    resolve(import.meta.dir, "..", "..", "io-plugin-filesystem"),
+    resolve(import.meta.dir, "..", "node_modules", "@flowscripter", "io-plugin-filesystem"),
     join(pluginsPath, "@flowscripter", "io-plugin-filesystem"),
     "junction",
   );
