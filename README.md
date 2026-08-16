@@ -65,6 +65,10 @@ Lint:
 
 `bunx oxlint index.ts src/ tests/`
 
+## Functional Tests
+
+Refer to [functional_tests/README.md](functional_tests/README.md)
+
 ## Documentation
 
 Refer to
