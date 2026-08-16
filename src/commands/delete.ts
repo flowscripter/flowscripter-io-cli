@@ -23,7 +23,7 @@ const deleteCommand: SubCommand = {
     const printerService = context.getServiceById(PRINTER_SERVICE_ID) as PrinterService;
     const path = argumentValues.path as string;
 
-    const provider = await getFilesystemProvider("/");
+    const provider = await getFilesystemProvider("");
     try {
       await provider.delete(path);
       await printerService.print(`Deleted ${path}\n`);

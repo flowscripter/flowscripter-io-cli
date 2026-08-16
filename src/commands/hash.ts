@@ -34,7 +34,7 @@ const hash: SubCommand = {
     const path = argumentValues.path as string;
     const algorithm = argumentValues.algorithm as string;
 
-    const provider = await getFilesystemProvider("/");
+    const provider = await getFilesystemProvider("");
     try {
       const handle = await provider.getReadableStream(path);
       const reader = (handle.stream as ReadableStream<ChunkRef>).getReader();

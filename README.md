@@ -25,16 +25,23 @@
   through a `Bun.CryptoHasher` (default `sha256`) - demonstrates consuming a
   `pluggable-io-framework` stream directly, outside the framework itself
 
-All commands operate against the local filesystem via
-[io-plugin-filesystem](https://github.com/flowscripter/io-plugin-filesystem),
-discovered and instantiated dynamically through
-[dynamic-plugin-framework](https://github.com/flowscripter/dynamic-plugin-framework)
-(not a static import) - rooted at `/`, so any absolute or cwd-relative path
-works, the same as any normal file tool.
+All commands operate against a filesystem source/sink provider - rooted at
+`/`, so any absolute or cwd-relative path works, the same as any normal file
+tool. **This package has no dependency on any provider plugin** - one must
+be installed first via the CLI's own plugin management (provided by
+[dynamic-cli-framework](https://github.com/flowscripter/dynamic-cli-framework)'s
+`plugin` commands), then discovered purely through
+[dynamic-plugin-framework](https://github.com/flowscripter/dynamic-plugin-framework)'s
+`NpmPluginRepository` at runtime:
+
+```
+bun run index.ts plugin:add @flowscripter/io-plugin-filesystem
+```
 
 ## Usage
 
 ```
+bun run index.ts plugin:add @flowscripter/io-plugin-filesystem
 bun run index.ts list .
 bun run index.ts copy a.txt b.txt
 bun run index.ts hash a.txt --algorithm sha256
@@ -57,6 +64,10 @@ Format:
 Lint:
 
 `bunx oxlint index.ts src/ tests/`
+
+## Functional Tests
+
+Refer to [functional_tests/README.md](functional_tests/README.md)
 
 ## Documentation
 

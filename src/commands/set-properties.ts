@@ -32,7 +32,7 @@ const setProperties: SubCommand = {
     const path = argumentValues.path as string;
     const mode = argumentValues.mode as number | undefined;
 
-    const provider = await getFilesystemProvider("/");
+    const provider = await getFilesystemProvider("");
     try {
       await provider.setProperties(path, mode !== undefined ? { mode } : {});
       await printerService.print(`Updated properties for ${path}\n`);

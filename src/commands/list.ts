@@ -41,7 +41,7 @@ const list: SubCommand = {
     const recursive = argumentValues.recursive as boolean | undefined;
     const regex = argumentValues.regex as string | undefined;
 
-    const provider = await getFilesystemProvider("/");
+    const provider = await getFilesystemProvider("");
     try {
       for await (const item of provider.list(path, {
         recursive,

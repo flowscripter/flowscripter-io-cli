@@ -30,7 +30,7 @@ const copy: SubCommand = {
     const source = argumentValues.source as string;
     const destination = argumentValues.destination as string;
 
-    const provider = await getFilesystemProvider("/");
+    const provider = await getFilesystemProvider("");
     try {
       const { size } = await provider.getProperties(source);
       const handle = await printerService.showProgressBar(
