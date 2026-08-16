@@ -23,7 +23,7 @@ const getProperties: SubCommand = {
     const printerService = context.getServiceById(PRINTER_SERVICE_ID) as PrinterService;
     const path = argumentValues.path as string;
 
-    const provider = await getFilesystemProvider("/");
+    const provider = await getFilesystemProvider("");
     try {
       const properties = await provider.getProperties(path);
       await printerService.print(`${JSON.stringify(properties, null, 2)}\n`);
