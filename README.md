@@ -9,6 +9,34 @@
 > built on
 > [dynamic-cli-framework](https://github.com/flowscripter/dynamic-cli-framework)
 
+## Installation
+
+**NOTE**: The binaries are 10's of megabytes in size as the entire Bun runtime
+is included.
+
+#### MacOS
+
+Via [Homebrew](https://brew.sh/):
+
+`brew install flowscripter/tap/flowscripter-io-cli`
+
+#### Linux
+
+In a terminal:
+
+`curl -fsSL https://raw.githubusercontent.com/flowscripter/flowscripter-io-cli/main/script/install.sh | sh`
+
+#### Windows
+
+Via [Winget](https://github.com/microsoft/winget-cli):
+
+`winget install Flowscripter.flowscripter-io-cli`
+
+#### Manual Install
+
+You can download and extract the binary zip files from the
+[releases](https://github.com/flowscripter/flowscripter-io-cli/releases) page.
+
 ## Commands
 
 - `list <path> [--recursive] [--regex]` - list files/folders, one JSON line per item
@@ -39,6 +67,9 @@ bun run index.ts plugin:add @flowscripter/io-plugin-filesystem
 ```
 
 ## Usage
+
+Once installed (see [Installation](#installation)), replace `bun run index.ts`
+below with `flowscripter-io-cli`:
 
 ```
 bun run index.ts plugin:add @flowscripter/io-plugin-filesystem
