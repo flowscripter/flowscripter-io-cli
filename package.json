@@ -24,6 +24,7 @@
     "@flowscripter/dynamic-cli-framework": "^5.3.4",
     "@flowscripter/dynamic-cli-framework-api": "^2.3.2",
     "@flowscripter/dynamic-plugin-framework": "^2.2.4",
+    "@flowscripter/flowscripter-io-cli-hash-native": "^1.0.0",
     "@flowscripter/pluggable-io-framework": "^1.1.0",
     "@flowscripter/pluggable-io-framework-api": "^1.0.4"
   },

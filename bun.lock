@@ -1,5 +1,5 @@
 {
-  "lockfileVersion": 1,
+  "lockfileVersion": 2,
   "configVersion": 1,
   "workspaces": {
     "": {
@@ -8,6 +8,7 @@
         "@flowscripter/dynamic-cli-framework": "^5.3.4",
         "@flowscripter/dynamic-cli-framework-api": "^2.3.2",
         "@flowscripter/dynamic-plugin-framework": "^2.2.4",
+        "@flowscripter/flowscripter-io-cli-hash-native": "^1.0.0",
         "@flowscripter/pluggable-io-framework": "^1.1.0",
         "@flowscripter/pluggable-io-framework-api": "^1.0.4",
       },
@@ -29,6 +30,8 @@
     "@flowscripter/dynamic-cli-framework-api": ["@flowscripter/dynamic-cli-framework-api@2.3.2", "", { "peerDependencies": { "typescript": "^7.0.2" } }, "sha512-N6icoIP5WBRt2EUF+PLWZr5iXAbAxa6QGkfBZNbxjJ5Z13+vUyTaTF6jEKGNv/9ekwTTmo0eBvOCqTNtFBi7zw=="],
 
     "@flowscripter/dynamic-plugin-framework": ["@flowscripter/dynamic-plugin-framework@2.2.4", "", { "dependencies": { "semver": "^7.8.5" }, "peerDependencies": { "typescript": "^7.0.2" } }, "sha512-OZ2a4j6OBzU8QiP3aQ8zeUmb5c9JJdRXXTGRmzlhhZEanpDcHsUxYa8mDUJABO3ThG2JoKjzmD8/K2b0xT5RSQ=="],
+
+    "@flowscripter/flowscripter-io-cli-hash-native": ["@flowscripter/flowscripter-io-cli-hash-native@1.0.0", "", { "peerDependencies": { "typescript": "^6.0.3" } }, "sha512-Tx5zaGnqQDHKo209qmaqPGIjXA0pcY7I3o4JnheMoKFF894Gtq0l1nqA8sEQ70lFwIoQN+oD40mGFrtUSwv1wg=="],
 
     "@flowscripter/io-plugin-filesystem": ["@flowscripter/io-plugin-filesystem@1.0.2", "", { "dependencies": { "@flowscripter/pluggable-io-framework-api": "^1.0.1", "zod": "^4.4.3" }, "peerDependencies": { "@flowscripter/dynamic-plugin-framework": "*", "typescript": "^6.0.3" } }, "sha512-xM0ON9vap/GXCjyaf+uYemi+Ly0nwnZv0mocUtwwk0PFZAYPc5o0aHFQT4PWhoB6DhW3wykb4ey8vGoTo3hz2w=="],
 
