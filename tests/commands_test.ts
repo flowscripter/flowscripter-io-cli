@@ -123,13 +123,23 @@ describe("move", () => {
 });
 
 describe("hash", () => {
-  test("hashes a file with the default algorithm", async () => {
+  test("hashes a file with the default algorithm using the native hasher", async () => {
     await writeFile(join(root, "a.txt"), "hello");
     const { lines, context } = createStubContext();
 
     await hash.execute(context, { path: join(root, "a.txt"), algorithm: "sha256" });
 
     const expected = new Bun.CryptoHasher("sha256").update("hello").digest("hex");
+    expect(lines[0]).toBe(`${expected}  ${join(root, "a.txt")}\n`);
+  });
+
+  test("hashes a file with a non-sha256 algorithm via the Bun.CryptoHasher fallback", async () => {
+    await writeFile(join(root, "a.txt"), "hello");
+    const { lines, context } = createStubContext();
+
+    await hash.execute(context, { path: join(root, "a.txt"), algorithm: "sha1" });
+
+    const expected = new Bun.CryptoHasher("sha1").update("hello").digest("hex");
     expect(lines[0]).toBe(`${expected}  ${join(root, "a.txt")}\n`);
   });
 });
