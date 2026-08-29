@@ -34,7 +34,12 @@ const setProperties: SubCommand = {
 
     const provider = await getFilesystemProvider("");
     try {
-      await provider.setProperties(path, mode !== undefined ? { mode } : {});
+      await printerService.showSpinner(`Setting properties for ${path}...`);
+      try {
+        await provider.setProperties(path, mode !== undefined ? { mode } : {});
+      } finally {
+        await printerService.hideSpinner();
+      }
       await printerService.print(`Updated properties for ${path}\n`);
     } finally {
       await provider[Symbol.asyncDispose]();
