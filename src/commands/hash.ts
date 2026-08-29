@@ -37,13 +37,28 @@ const hash: SubCommand = {
 
     const provider = await getFilesystemProvider("");
     try {
-      const handle = await provider.getReadableStream(path);
-      const reader = (handle.stream as ReadableStream<ChunkRef>).getReader();
-      const digestHex =
-        algorithm === "sha256"
-          ? await hashWithNativeSha256(reader)
-          : await hashWithBunCryptoHasher(reader, algorithm);
-      await printerService.print(`${digestHex}  ${path}\n`);
+      const { size } = await provider.getProperties(path);
+      const progressHandle = await printerService.showProgressBar(
+        "bytes",
+        `Hashing ${path}`,
+        size ?? 100,
+      );
+      let bytesProcessed = 0;
+      const onChunk = (chunkLength: number): void => {
+        bytesProcessed += chunkLength;
+        printerService.updateProgressBar(progressHandle, bytesProcessed);
+      };
+      try {
+        const handle = await provider.getReadableStream(path);
+        const reader = (handle.stream as ReadableStream<ChunkRef>).getReader();
+        const digestHex =
+          algorithm === "sha256"
+            ? await hashWithNativeSha256(reader, onChunk)
+            : await hashWithBunCryptoHasher(reader, algorithm, onChunk);
+        await printerService.print(`${digestHex}  ${path}\n`);
+      } finally {
+        await printerService.hideProgressBar(progressHandle);
+      }
     } finally {
       await provider[Symbol.asyncDispose]();
     }
@@ -58,6 +73,7 @@ function toHex(bytes: Uint8Array): string {
 
 async function hashWithNativeSha256(
   reader: ReadableStreamDefaultReader<ChunkRef>,
+  onChunk: (chunkLength: number) => void,
 ): Promise<string> {
   const hasher = new Sha256Hasher();
   for (;;) {
@@ -65,8 +81,10 @@ async function hashWithNativeSha256(
     if (done) break;
     if (value.kind === ChunkKind.Js) {
       hasher.update(value.data);
+      onChunk(value.data.byteLength);
     } else {
       hasher.updatePointer(value.ptr, value.length);
+      onChunk(value.length);
       value.release();
     }
   }
@@ -76,6 +94,7 @@ async function hashWithNativeSha256(
 async function hashWithBunCryptoHasher(
   reader: ReadableStreamDefaultReader<ChunkRef>,
   algorithm: string,
+  onChunk: (chunkLength: number) => void,
 ): Promise<string> {
   const hasher = new Bun.CryptoHasher(
     algorithm as ConstructorParameters<typeof Bun.CryptoHasher>[0],
@@ -85,6 +104,7 @@ async function hashWithBunCryptoHasher(
     if (done) break;
     if (value.kind === ChunkKind.Js) {
       hasher.update(value.data);
+      onChunk(value.data.byteLength);
     } else {
       throw new Error(`hash command only supports js-kind chunks for algorithm "${algorithm}"`);
     }

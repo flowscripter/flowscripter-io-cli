@@ -55,13 +55,14 @@ describe("list", () => {
 });
 
 describe("get-properties", () => {
-  test("prints properties as JSON", async () => {
+  test("prints properties as pretty-printed JSON", async () => {
     await writeFile(join(root, "a.txt"), "hello");
     const { lines, context } = createStubContext();
 
     await getProperties.execute(context, { path: join(root, "a.txt") });
 
     expect(JSON.parse(lines[0]!).size).toBe(5);
+    expect(lines[0]).toContain("\n");
   });
 });
 
@@ -79,6 +80,15 @@ describe("set-properties", () => {
       expect(properties.properties.mode & 0o777).toBe(0o600);
     }
   });
+
+  test("shows a spinner while applying properties", async () => {
+    await writeFile(join(root, "a.txt"), "hello");
+    const { context, spinnerMessages } = createStubContext();
+
+    await setProperties.execute(context, { path: join(root, "a.txt"), mode: 0o600 });
+
+    expect(spinnerMessages).toEqual([`Setting properties for ${join(root, "a.txt")}...`]);
+  });
 });
 
 describe("delete", () => {
@@ -91,6 +101,15 @@ describe("delete", () => {
     const { lines, context: listContext } = createStubContext();
     await list.execute(listContext, { path: root });
     expect(lines.length).toBe(0);
+  });
+
+  test("shows a spinner while deleting", async () => {
+    await writeFile(join(root, "a.txt"), "hello");
+    const { context, spinnerMessages } = createStubContext();
+
+    await deleteCommand.execute(context, { path: join(root, "a.txt") });
+
+    expect(spinnerMessages).toEqual([`Deleting ${join(root, "a.txt")}...`]);
   });
 });
 
@@ -141,5 +160,15 @@ describe("hash", () => {
 
     const expected = new Bun.CryptoHasher("sha1").update("hello").digest("hex");
     expect(lines[0]).toBe(`${expected}  ${join(root, "a.txt")}\n`);
+  });
+
+  test("reports progress as the file is read", async () => {
+    await writeFile(join(root, "a.txt"), "hello");
+    const { context, progressUpdates } = createStubContext();
+
+    await hash.execute(context, { path: join(root, "a.txt"), algorithm: "sha256" });
+
+    expect(progressUpdates.length).toBeGreaterThan(0);
+    expect(progressUpdates.at(-1)).toBe(5);
   });
 });

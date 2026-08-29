@@ -1,4 +1,8 @@
-import { launchMultiCommandCLI } from "@flowscripter/dynamic-cli-framework";
+import {
+  PrettyPrinterServiceProvider,
+  SyntaxHighlighterServiceProvider,
+  launchMultiCommandCLI,
+} from "@flowscripter/dynamic-cli-framework";
 import copy from "./commands/copy.ts";
 import deleteCommand from "./commands/delete.ts";
 import getProperties from "./commands/get-properties.ts";
@@ -18,7 +22,7 @@ export async function cli(): Promise<void> {
     "Example CLI for pluggable-io-framework.",
     "flowscripter-io-cli",
     packageJson.version,
-    undefined,
+    [new PrettyPrinterServiceProvider(40), new SyntaxHighlighterServiceProvider(35)],
     {
       pluginServiceEnabled: true,
       pluginServiceRemoteConfig: {
