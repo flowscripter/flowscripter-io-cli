@@ -1,6 +1,6 @@
 {
   "name": "@flowscripter/flowscripter-io-cli",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Example CLI using https://github.com/flowscripter/pluggable-io-framework",
   "keywords": [
     "bun",
@@ -21,15 +21,15 @@
     "access": "public"
   },
   "dependencies": {
-    "@flowscripter/dynamic-cli-framework": "^5.3.4",
-    "@flowscripter/dynamic-cli-framework-api": "^2.3.2",
+    "@flowscripter/dynamic-cli-framework": "^5.4.1",
+    "@flowscripter/dynamic-cli-framework-api": "^2.3.3",
     "@flowscripter/dynamic-plugin-framework": "^2.2.4",
     "@flowscripter/flowscripter-io-cli-hash-native": "^1.0.0",
-    "@flowscripter/pluggable-io-framework": "^1.1.0",
-    "@flowscripter/pluggable-io-framework-api": "^1.0.4"
+    "@flowscripter/pluggable-io-framework": "^1.1.2",
+    "@flowscripter/pluggable-io-framework-api": "^1.0.6"
   },
   "devDependencies": {
-    "@flowscripter/io-plugin-filesystem": "^1.0.2",
+    "@flowscripter/io-plugin-filesystem": "^1.0.3",
     "@types/bun": "^1.4.0",
     "@types/node": "^26.4.0",
     "oxfmt": "0.65.0",
