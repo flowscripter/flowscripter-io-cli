@@ -25,7 +25,12 @@ const deleteCommand: SubCommand = {
 
     const provider = await getFilesystemProvider("");
     try {
-      await provider.delete(path);
+      await printerService.showSpinner(`Deleting ${path}...`);
+      try {
+        await provider.delete(path);
+      } finally {
+        await printerService.hideSpinner();
+      }
       await printerService.print(`Deleted ${path}\n`);
     } finally {
       await provider[Symbol.asyncDispose]();
