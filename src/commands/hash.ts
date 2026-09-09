@@ -38,9 +38,8 @@ const hash: SubCommand = {
     const provider = await getFilesystemProvider("");
     try {
       const { size } = await provider.getProperties(path);
-      // Raw byte counts for large files (e.g. "13817151488/20641497116") are long enough to eat
-      // all available terminal width, leaving no room for the bar itself. Scale to a human-sized
-      // unit up front, based on the (fixed) total, so the progress bar has room to render.
+      // Scale to a human-sized unit up front, based on the (fixed) total, so the progress bar
+      // shows readable numbers throughout.
       const { unit, divisor } = pickByteUnit(size ?? 100);
       const scale = (bytes: number): number => Math.round((bytes / divisor) * 100) / 100;
       const progressHandle = await printerService.showProgressBar(
