@@ -9,6 +9,7 @@ import {
 import { ChunkKind, type ChunkRef } from "@flowscripter/pluggable-io-framework-api";
 import { Sha256Hasher } from "@flowscripter/flowscripter-io-cli-hash-native";
 import { getFilesystemProvider } from "../filesystemProvider.ts";
+import { createByteScale } from "../byteScale.ts";
 
 const hash: SubCommand = {
   name: "hash",
@@ -38,15 +39,16 @@ const hash: SubCommand = {
     const provider = await getFilesystemProvider("");
     try {
       const { size } = await provider.getProperties(path);
+      const byteScale = createByteScale(size ?? 100);
       const progressHandle = await printerService.showProgressBar(
-        "bytes",
+        byteScale.unit,
         `Hashing ${path}`,
-        size ?? 100,
+        byteScale.total,
       );
       let bytesProcessed = 0;
       const onChunk = (chunkLength: number): void => {
         bytesProcessed += chunkLength;
-        printerService.updateProgressBar(progressHandle, bytesProcessed);
+        printerService.updateProgressBar(progressHandle, byteScale.scale(bytesProcessed));
       };
       try {
         const handle = await provider.getReadableStream(path);
