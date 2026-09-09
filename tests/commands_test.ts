@@ -5,7 +5,7 @@ import { join, resolve } from "node:path";
 import copy from "../src/commands/copy.ts";
 import deleteCommand from "../src/commands/delete.ts";
 import getProperties from "../src/commands/get-properties.ts";
-import hash, { pickByteUnit } from "../src/commands/hash.ts";
+import hash from "../src/commands/hash.ts";
 import list from "../src/commands/list.ts";
 import move from "../src/commands/move.ts";
 import setProperties from "../src/commands/set-properties.ts";
@@ -170,12 +170,5 @@ describe("hash", () => {
 
     expect(progressUpdates.length).toBeGreaterThan(0);
     expect(progressUpdates.at(-1)).toBe(5);
-  });
-
-  test("pickByteUnit scales to the largest unit that keeps the total at 1 or more", () => {
-    expect(pickByteUnit(500)).toEqual({ unit: "bytes", divisor: 1 });
-    expect(pickByteUnit(1024)).toEqual({ unit: "KB", divisor: 1024 });
-    expect(pickByteUnit(1024 ** 2)).toEqual({ unit: "MB", divisor: 1024 ** 2 });
-    expect(pickByteUnit(20_641_497_116)).toEqual({ unit: "GB", divisor: 1024 ** 3 });
   });
 });

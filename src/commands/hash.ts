@@ -9,6 +9,7 @@ import {
 import { ChunkKind, type ChunkRef } from "@flowscripter/pluggable-io-framework-api";
 import { Sha256Hasher } from "@flowscripter/flowscripter-io-cli-hash-native";
 import { getFilesystemProvider } from "../filesystemProvider.ts";
+import { createByteScale } from "../byteScale.ts";
 
 const hash: SubCommand = {
   name: "hash",
@@ -38,19 +39,16 @@ const hash: SubCommand = {
     const provider = await getFilesystemProvider("");
     try {
       const { size } = await provider.getProperties(path);
-      // Scale to a human-sized unit up front, based on the (fixed) total, so the progress bar
-      // shows readable numbers throughout.
-      const { unit, divisor } = pickByteUnit(size ?? 100);
-      const scale = (bytes: number): number => Math.round((bytes / divisor) * 100) / 100;
+      const byteScale = createByteScale(size ?? 100);
       const progressHandle = await printerService.showProgressBar(
-        unit,
+        byteScale.unit,
         `Hashing ${path}`,
-        scale(size ?? 100),
+        byteScale.total,
       );
       let bytesProcessed = 0;
       const onChunk = (chunkLength: number): void => {
         bytesProcessed += chunkLength;
-        printerService.updateProgressBar(progressHandle, scale(bytesProcessed));
+        printerService.updateProgressBar(progressHandle, byteScale.scale(bytesProcessed));
       };
       try {
         const handle = await provider.getReadableStream(path);
@@ -68,20 +66,6 @@ const hash: SubCommand = {
     }
   },
 };
-
-const BYTE_UNITS: ReadonlyArray<{ unit: string; divisor: number }> = [
-  { unit: "GB", divisor: 1024 ** 3 },
-  { unit: "MB", divisor: 1024 ** 2 },
-  { unit: "KB", divisor: 1024 },
-  { unit: "bytes", divisor: 1 },
-];
-
-/** Picks the largest unit that keeps `totalBytes` at 1 or more, so the scaled total isn't < 1. */
-export function pickByteUnit(totalBytes: number): { unit: string; divisor: number } {
-  return (
-    BYTE_UNITS.find(({ divisor }) => totalBytes >= divisor) ?? BYTE_UNITS[BYTE_UNITS.length - 1]!
-  );
-}
 
 function toHex(bytes: Uint8Array): string {
   return Array.from(bytes)

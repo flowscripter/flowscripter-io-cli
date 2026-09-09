@@ -8,6 +8,7 @@ import {
 } from "@flowscripter/dynamic-cli-framework";
 import { copy as copyProvider } from "@flowscripter/pluggable-io-framework";
 import { getFilesystemProvider } from "../filesystemProvider.ts";
+import { createByteScale } from "../byteScale.ts";
 
 const copy: SubCommand = {
   name: "copy",
@@ -33,16 +34,17 @@ const copy: SubCommand = {
     const provider = await getFilesystemProvider("");
     try {
       const { size } = await provider.getProperties(source);
+      const byteScale = createByteScale(size ?? 100);
       const handle = await printerService.showProgressBar(
-        "bytes",
+        byteScale.unit,
         `Copying ${source}`,
-        size ?? 100,
+        byteScale.total,
       );
       try {
         await copyProvider(provider, source, provider, destination, {
           telemetry: {
             onProgress: (event) => {
-              printerService.updateProgressBar(handle, event.bytesProcessed);
+              printerService.updateProgressBar(handle, byteScale.scale(event.bytesProcessed));
             },
           },
         });
