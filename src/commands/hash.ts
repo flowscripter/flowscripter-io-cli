@@ -38,15 +38,20 @@ const hash: SubCommand = {
     const provider = await getFilesystemProvider("");
     try {
       const { size } = await provider.getProperties(path);
+      // Raw byte counts for large files (e.g. "13817151488/20641497116") are long enough to eat
+      // all available terminal width, leaving no room for the bar itself. Scale to a human-sized
+      // unit up front, based on the (fixed) total, so the progress bar has room to render.
+      const { unit, divisor } = pickByteUnit(size ?? 100);
+      const scale = (bytes: number): number => Math.round((bytes / divisor) * 100) / 100;
       const progressHandle = await printerService.showProgressBar(
-        "bytes",
+        unit,
         `Hashing ${path}`,
-        size ?? 100,
+        scale(size ?? 100),
       );
       let bytesProcessed = 0;
       const onChunk = (chunkLength: number): void => {
         bytesProcessed += chunkLength;
-        printerService.updateProgressBar(progressHandle, bytesProcessed);
+        printerService.updateProgressBar(progressHandle, scale(bytesProcessed));
       };
       try {
         const handle = await provider.getReadableStream(path);
@@ -64,6 +69,20 @@ const hash: SubCommand = {
     }
   },
 };
+
+const BYTE_UNITS: ReadonlyArray<{ unit: string; divisor: number }> = [
+  { unit: "GB", divisor: 1024 ** 3 },
+  { unit: "MB", divisor: 1024 ** 2 },
+  { unit: "KB", divisor: 1024 },
+  { unit: "bytes", divisor: 1 },
+];
+
+/** Picks the largest unit that keeps `totalBytes` at 1 or more, so the scaled total isn't < 1. */
+export function pickByteUnit(totalBytes: number): { unit: string; divisor: number } {
+  return (
+    BYTE_UNITS.find(({ divisor }) => totalBytes >= divisor) ?? BYTE_UNITS[BYTE_UNITS.length - 1]!
+  );
+}
 
 function toHex(bytes: Uint8Array): string {
   return Array.from(bytes)
