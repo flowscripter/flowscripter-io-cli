@@ -1,4 +1,5 @@
 import {
+  Icon,
   PRINTER_SERVICE_ID,
   type Context,
   type PrinterService,
@@ -40,7 +41,7 @@ const setProperties: SubCommand = {
       } finally {
         await printerService.hideSpinner();
       }
-      await printerService.print(`Updated properties for ${path}\n`);
+      await printerService.print(`Updated properties for ${path}\n`, Icon.SUCCESS);
     } finally {
       await provider[Symbol.asyncDispose]();
     }

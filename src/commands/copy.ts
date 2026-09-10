@@ -1,4 +1,5 @@
 import {
+  Icon,
   PRINTER_SERVICE_ID,
   type Context,
   type PrinterService,
@@ -51,7 +52,7 @@ const copy: SubCommand = {
       } finally {
         await printerService.hideProgressBar(handle);
       }
-      await printerService.print(`Copied ${source} to ${destination}\n`);
+      await printerService.print(`Copied ${source} to ${destination}\n`, Icon.SUCCESS);
     } finally {
       await provider[Symbol.asyncDispose]();
     }

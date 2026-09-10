@@ -1,4 +1,5 @@
 import {
+  Icon,
   PRINTER_SERVICE_ID,
   type Context,
   type PrinterService,
@@ -31,7 +32,7 @@ const deleteCommand: SubCommand = {
       } finally {
         await printerService.hideSpinner();
       }
-      await printerService.print(`Deleted ${path}\n`);
+      await printerService.print(`Deleted ${path}\n`, Icon.SUCCESS);
     } finally {
       await provider[Symbol.asyncDispose]();
     }

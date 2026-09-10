@@ -5,11 +5,13 @@ import {
   PRINTER_SERVICE_ID,
   SYNTAX_HIGHLIGHTER_SERVICE_ID,
   type Context,
+  type Icon,
   type PrinterService,
 } from "@flowscripter/dynamic-cli-framework";
 
 export interface StubPrinter {
   lines: string[];
+  icons: (Icon | undefined)[];
   spinnerMessages: string[];
   progressUpdates: number[];
   context: Context;
@@ -26,11 +28,13 @@ export interface StubPrinter {
  */
 export function createStubContext(): StubPrinter {
   const lines: string[] = [];
+  const icons: (Icon | undefined)[] = [];
   const spinnerMessages: string[] = [];
   const progressUpdates: number[] = [];
   const printerService = {
-    print: async (message: string) => {
+    print: async (message: string, icon?: Icon) => {
       lines.push(message);
+      icons.push(icon);
     },
     showProgressBar: async () => 0,
     updateProgressBar: (_handle: number, current: number) => {
@@ -59,5 +63,5 @@ export function createStubContext(): StubPrinter {
     doesServiceExist: (id: string) => id in services,
   };
 
-  return { lines, spinnerMessages, progressUpdates, context };
+  return { lines, icons, spinnerMessages, progressUpdates, context };
 }
