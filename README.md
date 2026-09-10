@@ -51,7 +51,15 @@ You can download and extract the binary zip files from the
   behaviour as `copy`
 - `hash <path> [--algorithm]` - hash a file by piping its readable stream
   through a `Bun.CryptoHasher` (default `sha256`) - demonstrates consuming a
-  `pluggable-io-framework` stream directly, outside the framework itself
+  `pluggable-io-framework` stream directly, outside the framework itself.
+  `--algorithm` is restricted to a curated set (`sha1`, `sha256`, `sha384`,
+  `sha512`, `md5`)
+
+Any argument omitted on the command line (e.g. running `copy` with no
+`source`/`destination`) is interactively prompted for instead of failing,
+via [dynamic-cli-framework](https://github.com/flowscripter/dynamic-cli-framework)'s
+`ArgumentPrompterService`. Confirmation messages (`copy`, `move`, `delete`,
+`set-properties`) are prefixed with a success icon.
 
 All commands operate against a filesystem source/sink provider - rooted at
 `/`, so any absolute or cwd-relative path works, the same as any normal file

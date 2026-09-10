@@ -24,6 +24,7 @@ export async function cli(): Promise<void> {
     packageJson.version,
     [new PrettyPrinterServiceProvider(40), new SyntaxHighlighterServiceProvider(35)],
     {
+      argumentPrompterServiceEnabled: true,
       pluginServiceEnabled: true,
       pluginServiceRemoteConfig: {
         name: "npmjs",

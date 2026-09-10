@@ -29,6 +29,7 @@ const hash: SubCommand = {
       shortAlias: "a",
       isOptional: true,
       defaultValue: "sha256",
+      allowableValues: ["sha1", "sha256", "sha384", "sha512", "md5"],
     },
   ],
   async execute(context: Context, argumentValues: Values): Promise<void> {

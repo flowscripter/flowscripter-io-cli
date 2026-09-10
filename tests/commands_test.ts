@@ -2,6 +2,7 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } fr
 import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
+import { Icon } from "@flowscripter/dynamic-cli-framework";
 import copy from "../src/commands/copy.ts";
 import deleteCommand from "../src/commands/delete.ts";
 import getProperties from "../src/commands/get-properties.ts";
@@ -69,7 +70,7 @@ describe("get-properties", () => {
 describe("set-properties", () => {
   test("applies mode", async () => {
     await writeFile(join(root, "a.txt"), "hello");
-    const { context } = createStubContext();
+    const { context, icons } = createStubContext();
 
     await setProperties.execute(context, { path: join(root, "a.txt"), mode: 0o600 });
 
@@ -79,6 +80,7 @@ describe("set-properties", () => {
     if (process.platform !== "win32") {
       expect(properties.properties.mode & 0o777).toBe(0o600);
     }
+    expect(icons).toEqual([Icon.SUCCESS]);
   });
 
   test("shows a spinner while applying properties", async () => {
@@ -94,13 +96,14 @@ describe("set-properties", () => {
 describe("delete", () => {
   test("removes a file", async () => {
     await writeFile(join(root, "a.txt"), "hello");
-    const { context } = createStubContext();
+    const { context, icons } = createStubContext();
 
     await deleteCommand.execute(context, { path: join(root, "a.txt") });
 
     const { lines, context: listContext } = createStubContext();
     await list.execute(listContext, { path: root });
     expect(lines.length).toBe(0);
+    expect(icons).toEqual([Icon.SUCCESS]);
   });
 
   test("shows a spinner while deleting", async () => {
@@ -116,7 +119,7 @@ describe("delete", () => {
 describe("copy", () => {
   test("copies a file", async () => {
     await writeFile(join(root, "a.txt"), "hello");
-    const { context } = createStubContext();
+    const { context, icons } = createStubContext();
 
     await copy.execute(context, { source: join(root, "a.txt"), destination: join(root, "b.txt") });
 
@@ -125,23 +128,32 @@ describe("copy", () => {
     await getProperties.execute(getPropsContext, { path: join(root, "b.txt") });
     expect(JSON.parse(getPropsLines[0]!).size).toBe(5);
     expect(lines).toEqual([]);
+    expect(icons).toEqual([Icon.SUCCESS]);
   });
 });
 
 describe("move", () => {
   test("moves a file", async () => {
     await writeFile(join(root, "a.txt"), "hello");
-    const { context } = createStubContext();
+    const { context, icons } = createStubContext();
 
     await move.execute(context, { source: join(root, "a.txt"), destination: join(root, "b.txt") });
 
     const { lines, context: listContext } = createStubContext();
     await list.execute(listContext, { path: root });
     expect(lines.map((line) => JSON.parse(line).path)).toEqual(["b.txt"]);
+    expect(icons).toEqual([Icon.SUCCESS]);
   });
 });
 
 describe("hash", () => {
+  test("algorithm option has a curated set of allowable values", () => {
+    const algorithmOption = hash.options.find((option) => option.name === "algorithm") as
+      | { allowableValues?: readonly unknown[] }
+      | undefined;
+    expect(algorithmOption?.allowableValues).toEqual(["sha1", "sha256", "sha384", "sha512", "md5"]);
+  });
+
   test("hashes a file with the default algorithm using the native hasher", async () => {
     await writeFile(join(root, "a.txt"), "hello");
     const { lines, context } = createStubContext();
