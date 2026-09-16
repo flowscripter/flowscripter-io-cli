@@ -26,4 +26,25 @@ describe("createByteScale", () => {
     expect(byteScale.total).toBe(500);
     expect(byteScale.scale(250)).toBe(250);
   });
+
+  test("format() appends the total's unit to an already-scaled value", () => {
+    const byteScale = createByteScale(20_641_497_116);
+
+    expect(byteScale.format(byteScale.total)).toBe("19.22GB");
+  });
+
+  test("formatRate() re-scales to a smaller unit when the rate is too small for the total's unit", () => {
+    const byteScale = createByteScale(20_641_497_116);
+
+    // 512KB/s expressed in GB/s (524288 / 1024^3) is real throughput, but would round to
+    // "0.00GB/s" if formatted in the total's unit - formatRate() converts back to raw bytes/s
+    // and re-picks a unit for that value.
+    expect(byteScale.formatRate(524_288 / 1024 ** 3)).toBe("512.00KB/s");
+  });
+
+  test("formatRate() stays in the total's unit when the rate is large enough for it", () => {
+    const byteScale = createByteScale(20_641_497_116);
+
+    expect(byteScale.formatRate(1.5)).toBe("1.50GB/s");
+  });
 });

@@ -36,11 +36,12 @@ const move: SubCommand = {
     try {
       const { size } = await provider.getProperties(source);
       const byteScale = createByteScale(size ?? 100);
-      const handle = await printerService.showProgressBar(
-        byteScale.unit,
-        `Moving ${source}`,
-        byteScale.total,
-      );
+      const handle = await printerService.showProgressBar({
+        message: `Moving ${source}`,
+        total: byteScale.total,
+        format: byteScale.format,
+        formatRate: byteScale.formatRate,
+      });
       try {
         await moveProvider(provider, source, provider, destination, {
           telemetry: {
