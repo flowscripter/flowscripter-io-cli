@@ -41,11 +41,12 @@ const hash: SubCommand = {
     try {
       const { size } = await provider.getProperties(path);
       const byteScale = createByteScale(size ?? 100);
-      const progressHandle = await printerService.showProgressBar(
-        byteScale.unit,
-        `Hashing ${path}`,
-        byteScale.total,
-      );
+      const progressHandle = await printerService.showProgressBar({
+        message: `Hashing ${path}`,
+        total: byteScale.total,
+        format: byteScale.format,
+        formatRate: byteScale.formatRate,
+      });
       let bytesProcessed = 0;
       const onChunk = (chunkLength: number): void => {
         bytesProcessed += chunkLength;
