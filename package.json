@@ -1,7 +1,7 @@
 {
   "name": "@flowscripter/flowscripter-io-cli",
   "version": "2.0.2",
-  "description": "Example CLI using https://github.com/flowscripter/pluggable-io-framework",
+  "description": "CLI for https://github.com/flowscripter/pluggable-io-framework",
   "keywords": [
     "bun",
     "cli",
