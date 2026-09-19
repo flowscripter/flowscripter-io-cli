@@ -4,7 +4,7 @@
 [![build](https://img.shields.io/github/actions/workflow/status/flowscripter/flowscripter-io-cli/release-bun-executable.yml)](https://github.com/flowscripter/flowscripter-io-cli/actions/workflows/release-bun-executable.yml)
 [![license: MIT](https://img.shields.io/github/license/flowscripter/flowscripter-io-cli)](https://github.com/flowscripter/flowscripter-io-cli/blob/main/LICENSE)
 
-> Example CLI for
+> CLI for the
 > [pluggable-io-framework](https://github.com/flowscripter/pluggable-io-framework),
 > built on
 > [dynamic-cli-framework](https://github.com/flowscripter/dynamic-cli-framework)
