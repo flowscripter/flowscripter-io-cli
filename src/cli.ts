@@ -1,4 +1,5 @@
 import {
+  type BaseCLIFeatureOptions,
   PrettyPrinterServiceProvider,
   SyntaxHighlighterServiceProvider,
   launchMultiCommandCLI,
@@ -16,6 +17,25 @@ import {
 } from "./pluginsDir.ts";
 import packageJson from "../package.json";
 
+export function getCLIFeatureOptions(): BaseCLIFeatureOptions {
+  return {
+    argumentPrompterServiceEnabled: true,
+    // The spawn service lets plugin:add/plugin:remove quote the package manager output and
+    // clear it on success.
+    spawnServiceEnabled: true,
+    pluginServiceEnabled: true,
+    pluginServiceRemoteConfig: {
+      name: "npmjs",
+      registryUrl: "https://registry.npmjs.org",
+      packageJsonNamespace: PLUGGABLE_IO_FRAMEWORK_PACKAGE_JSON_NAMESPACE,
+    },
+    pluginServiceLocalConfig: {
+      nodeModulesPath: getPluginsNodeModulesPath(),
+      packageJsonNamespace: PLUGGABLE_IO_FRAMEWORK_PACKAGE_JSON_NAMESPACE,
+    },
+  };
+}
+
 export async function cli(): Promise<void> {
   await launchMultiCommandCLI(
     [list, getProperties, setProperties, deleteCommand, copy, move, hash],
@@ -23,18 +43,6 @@ export async function cli(): Promise<void> {
     "flowscripter-io-cli",
     packageJson.version,
     [new PrettyPrinterServiceProvider(40), new SyntaxHighlighterServiceProvider(35)],
-    {
-      argumentPrompterServiceEnabled: true,
-      pluginServiceEnabled: true,
-      pluginServiceRemoteConfig: {
-        name: "npmjs",
-        registryUrl: "https://registry.npmjs.org",
-        packageJsonNamespace: PLUGGABLE_IO_FRAMEWORK_PACKAGE_JSON_NAMESPACE,
-      },
-      pluginServiceLocalConfig: {
-        nodeModulesPath: getPluginsNodeModulesPath(),
-        packageJsonNamespace: PLUGGABLE_IO_FRAMEWORK_PACKAGE_JSON_NAMESPACE,
-      },
-    },
+    getCLIFeatureOptions(),
   );
 }
