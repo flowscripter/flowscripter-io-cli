@@ -21,12 +21,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@flowscripter/dynamic-cli-framework": "^7.1.1",
+    "@flowscripter/dynamic-cli-framework": "^8.0.1",
     "@flowscripter/dynamic-cli-framework-api": "^4.2.0",
     "@flowscripter/dynamic-plugin-framework": "^2.2.14",
     "@flowscripter/flowscripter-io-cli-hash-native": "^1.0.11",
-    "@flowscripter/pluggable-io-framework": "^2.0.0",
-    "@flowscripter/pluggable-io-framework-api": "^3.0.0",
+    "@flowscripter/pluggable-io-framework": "^2.1.0",
+    "@flowscripter/pluggable-io-framework-api": "^3.1.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {

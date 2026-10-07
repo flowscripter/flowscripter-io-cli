@@ -27,6 +27,16 @@ describe("zodToComplexOption", () => {
     ]);
   });
 
+  test("uses a field's description when it has one", () => {
+    const properties = zodToComplexOption(
+      z.object({ path: z.string().describe("Folder path").optional() }),
+    );
+
+    expect(properties).toEqual([
+      { name: "path", description: "Folder path", type: ValueTypeName.STRING, isOptional: true },
+    ]);
+  });
+
   test("converts fields marked secret to secret options", () => {
     const properties = zodToComplexOption(
       z.object({
