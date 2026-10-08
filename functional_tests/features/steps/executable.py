@@ -42,3 +42,9 @@ def step_impl(context, text):
     text = text.replace('\\n', '\n')
     assert text in context.subprocess_wrapper.stderr, \
         'expected {!r} in stderr {!r}'.format(text, context.subprocess_wrapper.stderr)
+
+
+@then('the stdout should not contain "{text}"')
+def step_impl(context, text):
+    assert text not in context.subprocess_wrapper.stdout, \
+        'expected {!r} not in stdout {!r}'.format(text, context.subprocess_wrapper.stdout)
