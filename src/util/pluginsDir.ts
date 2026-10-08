@@ -7,7 +7,7 @@ export const PLUGGABLE_IO_FRAMEWORK_PACKAGE_JSON_NAMESPACE = "pluggable-io-frame
  * Local plugin install directory shared between the CLI's built-in plugin
  * service (`plugin add`/`plugin list`, see cli.ts) and our own
  * NpmPluginRepository scan for provider-factory extensions (see
- * filesystemProvider.ts) - both must point at the same install location.
+ * providerRegistry.ts) - both must point at the same install location.
  *
  * Overridable via FLOWSCRIPTER_IO_CLI_PLUGINS_PATH so tests can point at a
  * temp directory instead of the real home directory. Read at call time (not

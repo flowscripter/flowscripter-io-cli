@@ -21,15 +21,16 @@
     "access": "public"
   },
   "dependencies": {
-    "@flowscripter/dynamic-cli-framework": "^7.1.1",
-    "@flowscripter/dynamic-cli-framework-api": "^4.2.0",
-    "@flowscripter/dynamic-plugin-framework": "^2.2.14",
-    "@flowscripter/flowscripter-io-cli-hash-native": "^1.0.11",
-    "@flowscripter/pluggable-io-framework": "^1.2.7",
-    "@flowscripter/pluggable-io-framework-api": "^1.1.6"
+    "@flowscripter/dynamic-cli-framework": "^9.0.0",
+    "@flowscripter/dynamic-cli-framework-api": "^5.0.0",
+    "@flowscripter/dynamic-plugin-framework": "^2.2.19",
+    "@flowscripter/flowscripter-io-cli-hash-native": "^1.0.13",
+    "@flowscripter/pluggable-io-framework": "^2.1.0",
+    "@flowscripter/pluggable-io-framework-api": "^3.1.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@flowscripter/io-plugin-filesystem": "^1.1.5",
+    "@flowscripter/io-plugin-filesystem": "^2.0.2",
     "@types/bun": "^1.4.2",
     "@types/node": "^26.6.3",
     "oxfmt": "0.71.0",

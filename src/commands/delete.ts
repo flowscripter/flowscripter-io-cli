@@ -5,38 +5,37 @@ import {
   type PrinterService,
   type SubCommand,
   type Values,
-  ValueTypeName,
 } from "@flowscripter/dynamic-cli-framework";
-import { getFilesystemProvider } from "../filesystemProvider.ts";
+import type { ProviderRegistry } from "@flowscripter/pluggable-io-framework";
+import { createLocationOption } from "../util/location/createLocationOption.ts";
+import { targetKey } from "../util/location/targetKey.ts";
+import { toStructuredLocation } from "../util/location/toStructuredLocation.ts";
+import { requireOperation } from "../util/requireOperation.ts";
 
-const deleteCommand: SubCommand = {
-  name: "delete",
-  description: "Delete a file/folder",
-  positionals: [
-    {
-      name: "path",
-      description: "Path to delete",
-      type: ValueTypeName.STRING,
-    },
-  ],
-  options: [],
-  async execute(context: Context, argumentValues: Values): Promise<void> {
-    const printerService = context.getServiceById(PRINTER_SERVICE_ID) as PrinterService;
-    const path = argumentValues.path as string;
+export function createDeleteCommand(registry: ProviderRegistry): SubCommand {
+  return {
+    name: "delete",
+    description: "Delete a file/folder",
+    positionals: [],
+    options: [createLocationOption(registry, "location", "Location to delete")],
+    async execute(context: Context, argumentValues: Values): Promise<void> {
+      const printerService = context.getServiceById(PRINTER_SERVICE_ID) as PrinterService;
+      const location = toStructuredLocation(argumentValues.location as Values);
 
-    const provider = await getFilesystemProvider("");
-    try {
-      await printerService.showSpinner(`Deleting ${path}...`);
+      const { provider, target } = await registry.createProviderForLocation(location);
       try {
-        await provider.delete(path);
+        const deleteEntry = requireOperation(provider, "delete", location.protocol);
+        const key = targetKey(target, "delete");
+        await printerService.showSpinner(`Deleting ${key}...`);
+        try {
+          await deleteEntry(key);
+        } finally {
+          await printerService.hideSpinner();
+        }
+        await printerService.print(`Deleted ${key}\n`, Icon.SUCCESS);
       } finally {
-        await printerService.hideSpinner();
+        await provider[Symbol.asyncDispose]();
       }
-      await printerService.print(`Deleted ${path}\n`, Icon.SUCCESS);
-    } finally {
-      await provider[Symbol.asyncDispose]();
-    }
-  },
-};
-
-export default deleteCommand;
+    },
+  };
+}

@@ -15,6 +15,11 @@ def step_impl(context, name, content):
         f.write(content)
 
 
+@given('a folder "{name}" in the working directory')
+def step_impl(context, name):
+    os.mkdir(os.path.join(context.workdir, name))
+
+
 @then('a file "{name}" should exist in the working directory')
 def step_impl(context, name):
     path = os.path.join(context.workdir, name)

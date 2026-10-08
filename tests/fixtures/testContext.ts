@@ -3,10 +3,12 @@ import {
   DefaultSyntaxHighlighterService,
   PRETTY_PRINTER_SERVICE_ID,
   PRINTER_SERVICE_ID,
+  SHUTDOWN_SERVICE_ID,
   SYNTAX_HIGHLIGHTER_SERVICE_ID,
   type Context,
   type Icon,
   type PrinterService,
+  type ShutdownService,
 } from "@flowscripter/dynamic-cli-framework";
 
 export interface StubPrinter {
@@ -14,6 +16,7 @@ export interface StubPrinter {
   icons: (Icon | undefined)[];
   spinnerMessages: string[];
   progressUpdates: number[];
+  longRunningModes: boolean[];
   context: Context;
 }
 
@@ -21,6 +24,8 @@ export interface StubPrinter {
  * Minimal Context/PrinterService stub - only the PrinterService members our
  * commands actually call are implemented; everything else would throw if
  * invoked, which is intentional (a test relying on it should fail loudly).
+ *
+ * The shutdown service stub only records long-running mode changes.
  *
  * The pretty printer and syntax highlighter are the real default
  * implementations (colorEnabled = false, so highlight() is a no-op) so
@@ -31,6 +36,7 @@ export function createStubContext(): StubPrinter {
   const icons: (Icon | undefined)[] = [];
   const spinnerMessages: string[] = [];
   const progressUpdates: number[] = [];
+  const longRunningModes: boolean[] = [];
   const printerService = {
     print: async (message: string, icon?: Icon) => {
       lines.push(message);
@@ -47,6 +53,15 @@ export function createStubContext(): StubPrinter {
     hideSpinner: async () => {},
   } as unknown as PrinterService;
 
+  const shutdownService = {
+    enterLongRunningMode: () => {
+      longRunningModes.push(true);
+    },
+    leaveLongRunningMode: () => {
+      longRunningModes.push(false);
+    },
+  } as unknown as ShutdownService;
+
   const prettyPrinterService = new DefaultPrettyPrinterService();
   const syntaxHighlighterService = new DefaultSyntaxHighlighterService();
   syntaxHighlighterService.colorEnabled = false;
@@ -55,6 +70,7 @@ export function createStubContext(): StubPrinter {
     [PRINTER_SERVICE_ID]: printerService,
     [PRETTY_PRINTER_SERVICE_ID]: prettyPrinterService,
     [SYNTAX_HIGHLIGHTER_SERVICE_ID]: syntaxHighlighterService,
+    [SHUTDOWN_SERVICE_ID]: shutdownService,
   };
 
   const context: Context = {
@@ -63,5 +79,5 @@ export function createStubContext(): StubPrinter {
     doesServiceExist: (id: string) => id in services,
   };
 
-  return { lines, icons, spinnerMessages, progressUpdates, context };
+  return { lines, icons, spinnerMessages, progressUpdates, longRunningModes, context };
 }

@@ -1,63 +1,7 @@
-import {
-  Icon,
-  PRINTER_SERVICE_ID,
-  type Context,
-  type PrinterService,
-  type SubCommand,
-  type Values,
-  ValueTypeName,
-} from "@flowscripter/dynamic-cli-framework";
-import { move as moveProvider } from "@flowscripter/pluggable-io-framework";
-import { getFilesystemProvider } from "../filesystemProvider.ts";
-import { createByteScale } from "../byteScale.ts";
+import type { SubCommand } from "@flowscripter/dynamic-cli-framework";
+import type { ProviderRegistry } from "@flowscripter/pluggable-io-framework";
+import { createTransferCommand } from "./transferCommand.ts";
 
-const move: SubCommand = {
-  name: "move",
-  description: "Move a file, using a direct provider move when possible",
-  positionals: [
-    {
-      name: "source",
-      description: "Source path",
-      type: ValueTypeName.STRING,
-    },
-    {
-      name: "destination",
-      description: "Destination path",
-      type: ValueTypeName.STRING,
-    },
-  ],
-  options: [],
-  async execute(context: Context, argumentValues: Values): Promise<void> {
-    const printerService = context.getServiceById(PRINTER_SERVICE_ID) as PrinterService;
-    const source = argumentValues.source as string;
-    const destination = argumentValues.destination as string;
-
-    const provider = await getFilesystemProvider("");
-    try {
-      const { size } = await provider.getProperties(source);
-      const byteScale = createByteScale(size ?? 100);
-      const handle = await printerService.showProgressBar({
-        message: `Moving ${source}`,
-        total: byteScale.total,
-        format: byteScale.format,
-        formatRate: byteScale.formatRate,
-      });
-      try {
-        await moveProvider(provider, source, provider, destination, {
-          telemetry: {
-            onProgress: (event) => {
-              printerService.updateProgressBar(handle, byteScale.scale(event.bytesProcessed));
-            },
-          },
-        });
-      } finally {
-        await printerService.hideProgressBar(handle);
-      }
-      await printerService.print(`Moved ${source} to ${destination}\n`, Icon.SUCCESS);
-    } finally {
-      await provider[Symbol.asyncDispose]();
-    }
-  },
-};
-
-export default move;
+export function createMoveCommand(registry: ProviderRegistry): SubCommand {
+  return createTransferCommand(registry, "move");
+}
