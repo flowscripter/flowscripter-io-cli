@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { PayloadKind } from "@flowscripter/pluggable-io-framework-api";
-import { payloadKindOption, toPayloadKind } from "../src/payloadKindOption.ts";
+import { payloadKindOption, toPayloadKind } from "../../src/util/payloadKindOption.ts";
 
 describe("payloadKindOption", () => {
   test("defaults to auto and allows auto, js and native", () => {

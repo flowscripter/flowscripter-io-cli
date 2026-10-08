@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import type { ShutdownService } from "@flowscripter/dynamic-cli-framework";
-import { createTransferSignals } from "../src/transferSignals.ts";
+import { createTransferSignals } from "../../src/util/transferSignals.ts";
 
 function makeShutdownService(modes: boolean[]): ShutdownService {
   return {

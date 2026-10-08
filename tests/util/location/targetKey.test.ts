@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { targetKey } from "../../src/location/targetKey.ts";
+import { targetKey } from "../../../src/util/location/targetKey.ts";
 
 describe("targetKey", () => {
   test("returns the key of an entry or container target", () => {

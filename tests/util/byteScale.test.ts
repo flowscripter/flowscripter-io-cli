@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { createByteScale, pickByteUnit } from "../src/byteScale.ts";
+import { createByteScale, pickByteUnit } from "../../src/util/byteScale.ts";
 
 describe("pickByteUnit", () => {
   test("scales to the largest unit that keeps the total at 1 or more", () => {

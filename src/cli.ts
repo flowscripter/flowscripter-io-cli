@@ -14,8 +14,8 @@ import { createSetPropertiesCommand } from "./commands/set-properties.ts";
 import {
   PLUGGABLE_IO_FRAMEWORK_PACKAGE_JSON_NAMESPACE,
   getPluginsNodeModulesPath,
-} from "./pluginsDir.ts";
-import { createProviderRegistry } from "./providerRegistry.ts";
+} from "./util/pluginsDir.ts";
+import { createProviderRegistry } from "./util/providerRegistry.ts";
 import packageJson from "../package.json";
 
 export function getCLIFeatureOptions(): BaseCLIFeatureOptions {

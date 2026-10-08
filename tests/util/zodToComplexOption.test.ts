@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { ComplexValueTypeName, ValueTypeName } from "@flowscripter/dynamic-cli-framework";
 import { z } from "zod";
-import { zodToComplexOption } from "../src/zodToComplexOption.ts";
+import { zodToComplexOption } from "../../src/util/zodToComplexOption.ts";
 
 describe("zodToComplexOption", () => {
   test("converts scalar fields to typed options", () => {

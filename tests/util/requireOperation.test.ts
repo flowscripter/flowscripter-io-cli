@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import type { IOProvider } from "@flowscripter/pluggable-io-framework-api";
-import { requireOperation } from "../src/requireOperation.ts";
+import { requireOperation } from "../../src/util/requireOperation.ts";
 
 describe("requireOperation", () => {
   test("returns the operation bound to the provider", async () => {

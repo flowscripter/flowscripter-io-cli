@@ -12,11 +12,11 @@ import {
 import type { ProviderRegistry } from "@flowscripter/pluggable-io-framework";
 import { type Item, PayloadKind } from "@flowscripter/pluggable-io-framework-api";
 import { Sha256Hasher } from "@flowscripter/flowscripter-io-cli-hash-native";
-import { createByteScale } from "../byteScale.ts";
-import { createLocationOption } from "../location/createLocationOption.ts";
-import { toStructuredLocation } from "../location/toStructuredLocation.ts";
-import { payloadKindOption, toPayloadKind } from "../payloadKindOption.ts";
-import { createTransferSignals } from "../transferSignals.ts";
+import { createByteScale } from "../util/byteScale.ts";
+import { createLocationOption } from "../util/location/createLocationOption.ts";
+import { toStructuredLocation } from "../util/location/toStructuredLocation.ts";
+import { payloadKindOption, toPayloadKind } from "../util/payloadKindOption.ts";
+import { createTransferSignals } from "../util/transferSignals.ts";
 
 /**
  * Builds the `hash` command, which consumes a provider's readable stream

@@ -7,10 +7,10 @@ import {
   type Values,
 } from "@flowscripter/dynamic-cli-framework";
 import type { ProviderRegistry } from "@flowscripter/pluggable-io-framework";
-import { createLocationOption } from "../location/createLocationOption.ts";
-import { targetKey } from "../location/targetKey.ts";
-import { toStructuredLocation } from "../location/toStructuredLocation.ts";
-import { requireOperation } from "../requireOperation.ts";
+import { createLocationOption } from "../util/location/createLocationOption.ts";
+import { targetKey } from "../util/location/targetKey.ts";
+import { toStructuredLocation } from "../util/location/toStructuredLocation.ts";
+import { requireOperation } from "../util/requireOperation.ts";
 
 export function createDeleteCommand(registry: ProviderRegistry): SubCommand {
   return {

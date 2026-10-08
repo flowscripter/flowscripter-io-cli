@@ -3,8 +3,8 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { PayloadKind } from "@flowscripter/pluggable-io-framework-api";
-import { createProviderRegistry } from "../src/providerRegistry.ts";
-import { installFilesystemPlugin } from "./fixtures/pluginStore.ts";
+import { createProviderRegistry } from "../../src/util/providerRegistry.ts";
+import { installFilesystemPlugin } from "../fixtures/pluginStore.ts";
 
 describe("createProviderRegistry", () => {
   let cleanup: () => Promise<void>;

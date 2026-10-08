@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import type { Values } from "@flowscripter/dynamic-cli-framework";
 import type { ProviderRegistry } from "@flowscripter/pluggable-io-framework";
-import { createProviderRegistry } from "../../src/providerRegistry.ts";
+import { createProviderRegistry } from "../../src/util/providerRegistry.ts";
 
 /**
  * Simulates `flowscripter-io-cli plugin:add @flowscripter/io-plugin-filesystem`

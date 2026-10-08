@@ -11,9 +11,9 @@ import {
   ValueTypeName,
 } from "@flowscripter/dynamic-cli-framework";
 import { globToRegex, type ProviderRegistry } from "@flowscripter/pluggable-io-framework";
-import { createLocationOption } from "../location/createLocationOption.ts";
-import { toStructuredLocation } from "../location/toStructuredLocation.ts";
-import { requireOperation } from "../requireOperation.ts";
+import { createLocationOption } from "../util/location/createLocationOption.ts";
+import { toStructuredLocation } from "../util/location/toStructuredLocation.ts";
+import { requireOperation } from "../util/requireOperation.ts";
 
 export function createListCommand(registry: ProviderRegistry): SubCommand {
   return {

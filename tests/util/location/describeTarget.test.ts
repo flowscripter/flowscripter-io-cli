@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { describeTarget } from "../../src/location/describeTarget.ts";
+import { describeTarget } from "../../../src/util/location/describeTarget.ts";
 
 describe("describeTarget", () => {
   test("describes entry, container and pattern targets", () => {

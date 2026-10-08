@@ -3,7 +3,7 @@ import { ComplexValueTypeName, ValueTypeName } from "@flowscripter/dynamic-cli-f
 import type { ProviderRegistry } from "@flowscripter/pluggable-io-framework";
 import type { IOProviderFactory } from "@flowscripter/pluggable-io-framework-api";
 import { z } from "zod";
-import { createLocationOption } from "../../src/location/createLocationOption.ts";
+import { createLocationOption } from "../../../src/util/location/createLocationOption.ts";
 
 const factories: Record<string, Partial<IOProviderFactory>> = {
   file: { locationSchema: z.object({ path: z.string().default("/") }) },

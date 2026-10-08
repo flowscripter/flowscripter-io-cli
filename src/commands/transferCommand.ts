@@ -15,12 +15,12 @@ import {
   type TransferOptions,
   type TransferResult,
 } from "@flowscripter/pluggable-io-framework";
-import { createByteScale } from "../byteScale.ts";
-import { createLocationOption } from "../location/createLocationOption.ts";
-import { describeTarget } from "../location/describeTarget.ts";
-import { toStructuredLocation } from "../location/toStructuredLocation.ts";
-import { payloadKindOption, toPayloadKind } from "../payloadKindOption.ts";
-import { createTransferSignals } from "../transferSignals.ts";
+import { createByteScale } from "../util/byteScale.ts";
+import { createLocationOption } from "../util/location/createLocationOption.ts";
+import { describeTarget } from "../util/location/describeTarget.ts";
+import { toStructuredLocation } from "../util/location/toStructuredLocation.ts";
+import { payloadKindOption, toPayloadKind } from "../util/payloadKindOption.ts";
+import { createTransferSignals } from "../util/transferSignals.ts";
 
 const VERBS = {
   copy: { run: copy, progress: "Copying", done: "Copied", title: "Copy" },

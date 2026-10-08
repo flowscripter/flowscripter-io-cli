@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { toStructuredLocation } from "../../src/location/toStructuredLocation.ts";
+import { toStructuredLocation } from "../../../src/util/location/toStructuredLocation.ts";
 
 describe("toStructuredLocation", () => {
   test("takes the selected protocol's group as the location", () => {
