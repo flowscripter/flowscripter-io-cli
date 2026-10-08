@@ -103,24 +103,23 @@ through the CLI's own plugin management (provided by
 one protocol, can be installed side by side:
 
 ```
-bun run index.ts plugin:add @flowscripter/io-plugin-filesystem
+flowscripter-io-cli plugin:add @flowscripter/io-plugin-filesystem
 ```
 
 ## Usage
 
-Once installed (see [Installation](#installation)), replace `bun run index.ts`
-below with `flowscripter-io-cli`:
+Once installed (see [Installation](#installation)):
 
 ```
-bun run index.ts plugin:add @flowscripter/io-plugin-filesystem
-bun run index.ts list --location.protocol=file --location.file.path=.
-bun run index.ts copy \
+flowscripter-io-cli plugin:add @flowscripter/io-plugin-filesystem
+flowscripter-io-cli list --location.protocol=file --location.file.path=.
+flowscripter-io-cli copy \
   --source.protocol=file --source.file.path=. --source.file.filename=a.txt \
   --dest.protocol=file --dest.file.path=. --dest.file.filename=b.txt
-bun run index.ts copy \
+flowscripter-io-cli copy \
   --source.protocol=file --source.file.path=. --source.file.pattern='*.txt' \
   --dest.protocol=file --dest.file.path=backup
-bun run index.ts hash --location.protocol=file --location.file.path=. \
+flowscripter-io-cli hash --location.protocol=file --location.file.path=. \
   --location.file.filename=a.txt --algorithm sha256
 ```
 
