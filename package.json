@@ -32,9 +32,9 @@
   "devDependencies": {
     "@flowscripter/io-plugin-filesystem": "^2.0.2",
     "@types/bun": "^1.4.2",
-    "@types/node": "^26.6.3",
-    "oxfmt": "0.71.0",
-    "oxlint": "1.86.0"
+    "@types/node": "^26.6.4",
+    "oxfmt": "0.72.0",
+    "oxlint": "1.87.0"
   },
   "peerDependencies": {
     "typescript": "^7.0.2"
