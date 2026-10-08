@@ -20,7 +20,7 @@ import { createLocationOption } from "../util/location/createLocationOption.ts";
 import { describeTarget } from "../util/location/describeTarget.ts";
 import { toStructuredLocation } from "../util/location/toStructuredLocation.ts";
 import { payloadKindOption, toPayloadKind } from "../util/payloadKindOption.ts";
-import { createTransferSignals } from "../util/transferSignals.ts";
+import { createInterruptSignals } from "../util/interruptSignals.ts";
 
 const VERBS = {
   copy: { run: copy, progress: "Copying", done: "Copied", title: "Copy" },
@@ -59,7 +59,7 @@ export function createTransferCommand(
       const sourceName = describeTarget(source.target);
       const destName = describeTarget(dest.target);
       try {
-        using signals = createTransferSignals(shutdownService);
+        using signals = createInterruptSignals(shutdownService);
         const transferOptions: TransferOptions = {
           ...options,
           stop: signals.stop,

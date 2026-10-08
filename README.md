@@ -83,7 +83,7 @@ Common behaviour:
 - `--payload-kind` is `auto` (the default, letting the registry choose),
   `js` or `native`. An unavailable kind fails with the kinds that are
   installed.
-- During `copy`, `move` or `hash`, the first Ctrl-C stops gracefully and
+- During `list`, `copy`, `move` or `hash`, the first Ctrl-C stops gracefully and
   reports the result as stopped, and a second Ctrl-C cancels.
 - Operations a protocol does not support (e.g. `list` over `https`) fail with
   a "not supported by protocol" error.

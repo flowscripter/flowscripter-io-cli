@@ -16,7 +16,7 @@ import { createByteScale } from "../util/byteScale.ts";
 import { createLocationOption } from "../util/location/createLocationOption.ts";
 import { toStructuredLocation } from "../util/location/toStructuredLocation.ts";
 import { payloadKindOption, toPayloadKind } from "../util/payloadKindOption.ts";
-import { createTransferSignals } from "../util/transferSignals.ts";
+import { createInterruptSignals } from "../util/interruptSignals.ts";
 
 /**
  * Builds the `hash` command, which consumes a provider's readable stream
@@ -71,7 +71,7 @@ export function createHashCommand(registry: ProviderRegistry): SubCommand {
         let digestHex: string;
         let stopped: boolean;
         try {
-          using signals = createTransferSignals(shutdownService);
+          using signals = createInterruptSignals(shutdownService);
           const handle = await provider.getReadableStream(path);
           const reader = (handle.stream as ReadableStream<Item>).getReader();
           const cancel = () => {
