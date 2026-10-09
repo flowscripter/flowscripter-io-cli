@@ -61,8 +61,7 @@ protocol.
 - `list --location [--recursive] [--regex]` - list a folder, or the files
   matching a pattern location, one JSON line per item
 - `get-properties --location` - print a file or folder's properties as JSON
-- `set-properties --location [--last-modified] [--content-type]
-[--properties.<protocol>.<name>]` - set properties: last modified time and
+- `set-properties --location [--last-modified] [--content-type] [--properties.<protocol>.<name>]` - set properties: last modified time and
   content type apply to every protocol, and `--properties` holds one group
   per protocol for its own settable properties (e.g.
   `--properties.file.mode=384`)
