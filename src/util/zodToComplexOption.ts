@@ -73,7 +73,9 @@ function toOption(name: string, schema: ZodNode): Option | ComplexOption {
 }
 
 function toOptions(node: ZodNode): ReadonlyArray<Option | ComplexOption> {
-  return Object.entries(node.shape ?? {}).map(([name, child]) => toOption(name, child));
+  return Object.entries(node.shape ?? {})
+    .filter(([, child]) => unwrap(child).node.def.type !== "record")
+    .map(([name, child]) => toOption(name, child));
 }
 
 /**
@@ -83,6 +85,8 @@ function toOptions(node: ZodNode): ReadonlyArray<Option | ComplexOption> {
  * values, nested objects become nested `ComplexOption`s and arrays of objects
  * become array `ComplexOption`s. Optional and defaulted fields are optional.
  * A field's `.describe()` text is its description, defaulting to its name.
+ * Record fields (free-form key/value maps) have no command line form and are
+ * left out.
  */
 export function zodToComplexOption(schema: ZodType): ReadonlyArray<Option | ComplexOption> {
   const { node } = unwrap(schema as unknown as ZodNode);
