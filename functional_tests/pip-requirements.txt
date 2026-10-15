@@ -3,5 +3,5 @@ boto3
 moto[s3]
 flask
 flask-cors
-# last release with a Windows ARM wheel; later ones need a Rust toolchain to build there
-cryptography==46.0.3
+# cryptography (pulled in by moto): releases after 46.0.3 have no Windows ARM wheel and need a Rust toolchain to build there
+cryptography<=46.0.3; sys_platform == "win32" and platform_machine == "ARM64"
