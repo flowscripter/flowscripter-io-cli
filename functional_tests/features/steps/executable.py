@@ -9,6 +9,8 @@ from support.subprocess_wrapper import SubprocessWrapper
 @when('the executable stdout is captured for "{args}"')
 def step_impl(context, args):
     args = args.replace('{workdir}', context.workdir or '')
+    args = args.replace('{endpoint}', getattr(context, 's3_endpoint', ''))
+    args = args.replace('{bucket}', context.s3_bucket or '')
     wrapper = SubprocessWrapper(context.executable)
     wrapper.run(args)
     context.subprocess_wrapper = wrapper
