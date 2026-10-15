@@ -4,4 +4,4 @@ moto[s3]
 flask
 flask-cors
 # last release with a Windows ARM wheel; later ones need a Rust toolchain to build there
-cryptography==46.0.3
+cryptography==50.0.0
