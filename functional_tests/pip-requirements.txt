@@ -1,1 +1,5 @@
 behave
+boto3
+moto[s3]
+flask
+flask-cors

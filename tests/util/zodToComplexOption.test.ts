@@ -110,6 +110,13 @@ describe("zodToComplexOption", () => {
     );
   });
 
+  test("leaves out record fields", () => {
+    const options = zodToComplexOption(
+      z.object({ name: z.string(), tags: z.record(z.string(), z.string()).optional() }),
+    );
+    expect(options.map((o) => o.name)).toEqual(["name"]);
+  });
+
   test("rejects a non-object schema", () => {
     expect(() => zodToComplexOption(z.string())).toThrow('Expected an object schema, got "string"');
   });
