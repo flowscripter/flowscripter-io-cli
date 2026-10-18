@@ -1,29 +1,23 @@
 import { expect, test } from "bun:test";
+import { existsSync, mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-const script = `
-import { readFileSync } from "node:fs";
-let loads = 0;
-Bun.plugin({
-  name: "count-native-loads",
-  setup(build) {
-    build.onLoad({ filter: /flowscripter-io-cli-hash-native.*[\\\\/]src[\\\\/]lib\\.ts$/ }, (args) => {
-      loads++;
-      return { contents: readFileSync(args.path, "utf8"), loader: "ts" };
-    });
-  },
-});
-await import(process.argv[1]);
-process.stdout.write(String(loads));
-`;
-
-test("importing the hash command does not load the native hasher library", async () => {
-  const hashModule = join(import.meta.dir, "../../src/commands/hash.ts");
-  const proc = Bun.spawn([process.execPath, "--eval", script, hashModule], {
-    stdout: "pipe",
-    stderr: "pipe",
-  });
-  const [stdout, exitCode] = await Promise.all([new Response(proc.stdout).text(), proc.exited]);
-  expect(exitCode).toBe(0);
-  expect(stdout.trim()).toBe("0");
+test("importing the hash command does not resolve or download the native library", async () => {
+  const home = mkdtempSync(join(tmpdir(), "hash-lazy-load-"));
+  try {
+    const hashModule = join(import.meta.dir, "../../src/commands/hash.ts");
+    const proc = Bun.spawn(
+      [process.execPath, "--eval", "await import(process.argv[1])", hashModule],
+      {
+        env: { ...process.env, HOME: home, USERPROFILE: home },
+        stdout: "pipe",
+        stderr: "pipe",
+      },
+    );
+    expect(await proc.exited).toBe(0);
+    expect(existsSync(join(home, ".flowscripter"))).toBe(false);
+  } finally {
+    rmSync(home, { recursive: true, force: true });
+  }
 });

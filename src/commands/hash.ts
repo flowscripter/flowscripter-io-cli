@@ -11,6 +11,7 @@ import {
 } from "@flowscripter/dynamic-cli-framework";
 import type { ProviderRegistry } from "@flowscripter/pluggable-io-framework";
 import { type Item, PayloadKind } from "@flowscripter/pluggable-io-framework-api";
+import { initNativeLib, Sha256Hasher } from "@flowscripter/flowscripter-io-cli-hash-native";
 import { createByteScale } from "../util/byteScale.ts";
 import { createLocationOption } from "../util/location/createLocationOption.ts";
 import { toStructuredLocation } from "../util/location/toStructuredLocation.ts";
@@ -111,8 +112,7 @@ async function hashWithNativeSha256(
   reader: ReadableStreamDefaultReader<Item>,
   onChunk: (chunkLength: number) => void,
 ): Promise<string> {
-  // loaded on demand: the module resolves and may download a native library on import
-  const { Sha256Hasher } = await import("@flowscripter/flowscripter-io-cli-hash-native");
+  await initNativeLib();
   const hasher = new Sha256Hasher();
   for (;;) {
     const { done, value } = await reader.read();
