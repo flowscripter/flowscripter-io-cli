@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { ComplexValueTypeName, ValueTypeName } from "@flowscripter/dynamic-cli-framework";
 import type { ProviderRegistry } from "@flowscripter/pluggable-io-framework";
 import type { IOProviderFactory } from "@flowscripter/pluggable-io-framework-api";
+import type { ValidationContext } from "@flowscripter/dynamic-cli-framework-api";
 import { z } from "zod";
 import { createLocationOption } from "../../../src/util/location/createLocationOption.ts";
 
@@ -19,6 +20,8 @@ const registry = {
   getProtocols: () => Object.keys(factories),
   getFactory: (protocol: string) => factories[protocol],
 } as unknown as ProviderRegistry;
+
+const validationContext = {} as ValidationContext;
 
 describe("createLocationOption", () => {
   test("has a protocol property and one optional group per protocol", () => {
@@ -63,11 +66,13 @@ describe("createLocationOption", () => {
   test("validates the selected protocol's group against its location schema", () => {
     const { validate } = createLocationOption(registry, "source", "Source location");
 
-    expect(validate?.({ protocol: "file" })).toBeUndefined();
-    expect(validate?.({ protocol: "s3", s3: { bucket: "b" } })).toBeUndefined();
-    expect(validate?.({ protocol: "s3", file: { path: "/" } })).toStartWith(
+    expect(validate?.({ protocol: "file" }, validationContext)).toBeUndefined();
+    expect(validate?.({ protocol: "s3", s3: { bucket: "b" } }, validationContext)).toBeUndefined();
+    expect(validate?.({ protocol: "s3", file: { path: "/" } }, validationContext)).toStartWith(
       "Invalid s3 location: bucket:",
     );
-    expect(validate?.({ protocol: "ftp" })).toBe('No provider installed for protocol "ftp"');
+    expect(validate?.({ protocol: "ftp" }, validationContext)).toBe(
+      'No provider installed for protocol "ftp"',
+    );
   });
 });
