@@ -3,6 +3,7 @@ import { mkdtemp, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Icon } from "@flowscripter/dynamic-cli-framework";
+import type { ValidationContext } from "@flowscripter/dynamic-cli-framework-api";
 import type { ProviderRegistry } from "@flowscripter/pluggable-io-framework";
 import { fileLocation, installFilesystemPlugin } from "../fixtures/pluginStore.ts";
 import { createStubContext } from "../fixtures/testContext.ts";
@@ -27,6 +28,8 @@ beforeEach(async () => {
 afterEach(async () => {
   await rm(root, { recursive: true, force: true });
 });
+
+const validationContext = {} as ValidationContext;
 
 describe("set-properties", () => {
   test("applies the protocol's properties and last-modified, with a spinner", async () => {
@@ -62,7 +65,9 @@ describe("set-properties", () => {
   test("validates --last-modified", () => {
     const command = createSetPropertiesCommand(registry);
     const lastModified = command.options.find((option) => option.name === "last-modified");
-    expect(lastModified?.validate?.("not a date")).toBe("must be an ISO 8601 date");
-    expect(lastModified?.validate?.("2020-01-02")).toBeUndefined();
+    expect(lastModified?.validate?.("not a date", validationContext)).toBe(
+      "must be an ISO 8601 date",
+    );
+    expect(lastModified?.validate?.("2020-01-02", validationContext)).toBeUndefined();
   });
 });

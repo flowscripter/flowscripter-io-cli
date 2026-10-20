@@ -75,6 +75,7 @@ export function createStubContext(): StubPrinter {
 
   const context: Context = {
     cliConfig: { name: "test", version: "0.0.0" },
+    isTty: { stdin: false, stdout: false, stderr: false },
     getServiceById: (id: string) => services[id],
     doesServiceExist: (id: string) => id in services,
   };
