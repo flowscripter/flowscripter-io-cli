@@ -23,18 +23,18 @@
   "dependencies": {
     "@flowscripter/dynamic-cli-framework": "^12.2.8",
     "@flowscripter/dynamic-cli-framework-api": "^5.1.11",
-    "@flowscripter/dynamic-plugin-framework": "^2.3.7",
+    "@flowscripter/dynamic-plugin-framework": "^2.3.8",
     "@flowscripter/flowscripter-io-cli-hash-native": "^2.0.11",
     "@flowscripter/pluggable-io-framework": "^2.1.16",
     "@flowscripter/pluggable-io-framework-api": "^3.1.12",
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@flowscripter/io-plugin-filesystem": "^2.0.12",
+    "@flowscripter/io-plugin-filesystem": "^2.0.13",
     "@types/bun": "^1.4.5",
-    "@types/node": "^26.6.6",
-    "oxfmt": "0.79.0",
-    "oxlint": "1.94.0"
+    "@types/node": "^26.6.11",
+    "oxfmt": "0.80.0",
+    "oxlint": "1.95.0"
   },
   "peerDependencies": {
     "typescript": "^7.0.2"
