@@ -153,6 +153,11 @@ and
 [io-plugin-filesystem](https://github.com/flowscripter/io-plugin-filesystem)
 for the contracts and orchestration this CLI is built on.
 
+## Design Records
+
+- [Architecture decision records](design/adr/) for decisions specific to this repo
+- [Change specs and plans](design/changes/) from the agentic development workflow
+
 ## License
 
 MIT © Flowscripter

@@ -178,5 +178,7 @@ flowscripter-io-cli
 /.releaserc
 functional_tests/features/support/__pycache__
 functional_tests/executable
-.claude
+.claude/*
+!.claude/CLAUDE.md
+!.claude/skills/
 functional_tests/.venv
